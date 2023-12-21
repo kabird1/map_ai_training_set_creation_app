@@ -35,9 +35,9 @@ map = requests.get(url=url, params=params)
 print(map)
 print(map.content)
 
-with open('/example_tile.png', 'wb') as f:
-    f.write(map.content)
-
+st.image(map.content, 
+         caption = "Satellite image at X = "+str(x)+", Y = "+str(y)+", Zoom = "+str(z),
+         output_format = "auto")
 st.button(label='Yes', help='Yes = The feature IS shown in the image')
 st.button(label='No', help="No = The feature IS NOT shown in the image")
 
