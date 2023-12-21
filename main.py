@@ -35,7 +35,7 @@ map = requests.get(url=url, params=params)
 print(map)
 print(map.content)
 
-with open('Training data from satellite images app/example_tile.png', 'wb') as f:
+with open('/example_tile.png', 'wb') as f:
     f.write(map.content)
 
 st.button(label='Yes', help='Yes = The feature IS shown in the image')
