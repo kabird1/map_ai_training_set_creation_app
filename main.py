@@ -76,8 +76,7 @@ if user_file!=None:
     st.session_state.data=pd.read_csv(user_file)
     if len(st.session_state.data.x)>0:
         st.session_state.counter = 0
-        load_new_image(params, image_container)
-        args=(params, image_container)
+        load_new_image()
         st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback)
         st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
 
