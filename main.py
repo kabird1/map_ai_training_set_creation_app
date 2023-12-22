@@ -36,6 +36,7 @@ def load_new_image():
         z = 15
         url='https://tile.googleapis.com/v1/2dtiles/'+str(z)+"/"+str(x)+"/"+str(y)
         print(url)
+        print(st.session_state.params)
         map = requests.get(url=url, params=st.session_state.params)
         #checks that map has any features... google api will not return maps for the ocean, only areas with features
         if map.ok:
