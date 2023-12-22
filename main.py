@@ -20,10 +20,8 @@ session_token_request = requests.post('https://tile.googleapis.com/v1/createSess
 print(session_token_request.json())
 
 #function to load up images from google maps api:
-def load_new_image():
+def load_new_image(data, counter):
     global display_image
-    global counter
-    global data
     #returns none if all the coordinates have been shown
     if counter<len(data.x):
         x = data.x[counter]
@@ -35,24 +33,23 @@ def load_new_image():
         #checks that map has any features... google api will not return maps for the ocean, only areas with features
         if map.ok:
             display_image = map.content
+            st.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
             data.feature[counter]='no'
             print(data.loc[[counter]])
             counter=counter+1
-            load_new_image()
-    else:
-        display_image=None
+            load_new_image(data,counter)
+        return counter
 
 
 #yes button with function to update the csv file and then load up a new image
 def yes_button_callback():
-    global counter
-    global data
     if user_file!=None:
         data.feature[counter]='yes'
         counter=counter+1
         load_new_image()
+
 st.button(label='Yes', help='Yes = The feature IS shown in the image', on_click=yes_button_callback)
 
 
@@ -69,14 +66,11 @@ st.button(label='No', help="No = The feature IS NOT shown in the image", on_clic
 
 #user uploads file here
 #when user uploads new file, counter is reset, and the first image is loaded
-def new_file_uploaded():
-    global counter
-    global data
-    global user_file
+def new_file_uploaded(user_file):
     data=pd.read_csv(user_file)
     counter = 0
-    load_new_image()
-user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.", on_change=new_file_uploaded)
+    load_new_image(data, counter)
+user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.", on_change=new_file_uploaded(user_file))
 
 
 
