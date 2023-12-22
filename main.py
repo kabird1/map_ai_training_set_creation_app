@@ -76,7 +76,7 @@ user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV Fil
 if user_file!=None:
     st.session_state.data=pd.read_csv(user_file)
     st.session_state.data.astype({'feature':'object'})
-    if len(data.x)>0:
+    if len(st.session_state.data.x)>0:
         st.session_state.counter = 0
         load_new_image(params, image_container)
         st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback, args=(params, image_container))
