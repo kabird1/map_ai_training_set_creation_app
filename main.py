@@ -15,7 +15,8 @@ json_data = {
     'language': 'en-US',
     'region': 'US',
 }
-user_file=None
+if 'user_file' not in st.session_state:
+    st.session_state.user_file=None
 session_token_request = requests.post('https://tile.googleapis.com/v1/createSession', params=params, headers=headers, json=json_data)
 print(session_token_request.json())
 
@@ -74,8 +75,8 @@ def no_button_callback():
 
 #user uploads file here
 #when user uploads new file, counter is reset, and the first image is loaded
-user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
-if user_file!=None:
+st.session_state.user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
+if st.session_state.user_file!=None:
     st.session_state.data=pd.read_csv(user_file)
     if len(st.session_state.data.x)>0:
         load_new_image()
@@ -85,7 +86,7 @@ if user_file!=None:
 
 #This button takes the pandas dataframe and turns it into a CSV file, then shows a download button
 def update_file_callback():
-    if user_file!=None:
+    if st.session_state.user_file!=None:
         output_csv = st.session_state.data.to_csv().encode('utf-8')
         st.download_button(label="Download updated CSV", data=output_csv, file_name='maps_training_data.csv', mime='text/csv')
 st.button(label="Update my .csv file", help="Updates the CSV file with your yes and no answers", on_click=update_file_callback)
