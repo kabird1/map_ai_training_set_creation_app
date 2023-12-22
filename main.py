@@ -70,7 +70,11 @@ def new_file_uploaded(user_file):
     data=pd.read_csv(user_file)
     counter = 0
     load_new_image(data, counter)
-user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.", on_change=new_file_uploaded(user_file))
+user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
+if user_file!=None:
+    data=pd.read_csv(user_file)
+    counter = 0
+    load_new_image(data, counter)
 
 
 
