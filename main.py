@@ -75,6 +75,7 @@ def no_button_callback(data,params, image_container):
 user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
 if user_file!=None:
     data=pd.read_csv(user_file)
+    data.astype({'feature':'object'})
     if len(data.x)>0:
         st.session_state.counter = 0
         load_new_image(data, params, image_container)
