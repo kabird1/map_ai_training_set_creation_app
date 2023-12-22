@@ -58,7 +58,7 @@ def load_new_image():
 
 #yes button with function to update the csv file and then load up a new image
 def yes_button_callback():
-    if user_file!=None:
+    if st.session_state.user_file!=None:
         st.session_state.data.loc[st.session_state.counter, 'feature']=1
         st.session_state.counter+=1
         load_new_image()
@@ -67,7 +67,7 @@ def yes_button_callback():
 
 #no button with function to update the csv file and then load up a new image
 def no_button_callback():
-    if user_file!=None:
+    if st.session_state.user_file!=None:
         st.session_state.data.loc[st.session_state.counter, 'feature']=0
         st.session_state.counter+=1
         load_new_image()
