@@ -25,7 +25,6 @@ params = {
 }
 
 image_container = st.empty()
-st.session_state.counter=0
 st.session_state.data=None
 
 #function to load up images from google maps api:
