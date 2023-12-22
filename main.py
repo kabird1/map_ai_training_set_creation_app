@@ -48,7 +48,7 @@ def load_new_image(data, counter, params, image_container):
             data.feature[counter]='no'
             print(data.loc[[counter]])
             counter=counter+1
-            load_new_image(data,counter, params)
+            load_new_image(data,counter, params, image_container)
         return counter
 
 
