@@ -24,6 +24,12 @@ st.session_state.params = {
     'key': 'AIzaSyA4MhqXRYSOSOkfKw5vk-YYupMuYPMFcMQ',
 }
 
+if 'data' not in st.session_state:
+    st.session_state.data=None
+if 'counter' not in st.session_state:
+    st.session_state.counter = 0
+if 'image_container' not in st.session_state:
+    st.session_state.image_container = st.empty()
 
 
 #function to load up images from google maps api:
@@ -75,13 +81,6 @@ if user_file!=None:
         load_new_image()
         st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback)
         st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
-
-if 'data' not in st.session_state:
-    st.session_state.data=None
-if 'counter' not in st.session_state:
-    st.session_state.counter = 0
-if 'image_container' not in st.session_state:
-    st.session_state.image_container = st.empty()
 
 
 #This button takes the pandas dataframe and turns it into a CSV file, then shows a download button
