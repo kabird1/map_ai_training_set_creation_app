@@ -84,11 +84,10 @@ if st.session_state.user_file!=None:
         st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
 
 
-#This button takes the pandas dataframe and turns it into a CSV file, then shows a download button
-def update_file_callback():
-    if st.session_state.user_file!=None:
-        output_csv = st.session_state.data.to_csv().encode('utf-8')
-        st.download_button(label="Download updated CSV", data=output_csv, file_name='maps_training_data.csv', mime='text/csv')
-st.button(label="Update my .csv file", help="Updates the CSV file with your yes and no answers", on_click=update_file_callback)
+#This takes the pandas dataframe and turns it into a CSV file, and shows a download button
+if st.session_state.user_file!=None:
+    output_csv = st.session_state.data.to_csv().encode('utf-8')
+    st.download_button(label="Download updated CSV", data=output_csv, file_name='maps_training_data.csv', mime='text/csv')
+
 
 
