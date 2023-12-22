@@ -19,16 +19,16 @@ user_file=None
 session_token_request = requests.post('https://tile.googleapis.com/v1/createSession', params=params, headers=headers, json=json_data)
 print(session_token_request.json())
 
-params = {
+st.session_state.params = {
     'session': session_token_request.json()['session'],
     'key': 'AIzaSyA4MhqXRYSOSOkfKw5vk-YYupMuYPMFcMQ',
 }
 
-image_container = st.empty()
+st.session_state.image_container = st.empty()
 st.session_state.data=None
 
 #function to load up images from google maps api:
-def load_new_image(params, image_container):
+def load_new_image():
     #returns none if all the coordinates have been shown
     if st.session_state.counter<len(st.session_state.data.x):
         x = st.session_state.data.x[st.session_state.counter]
@@ -47,25 +47,25 @@ def load_new_image(params, image_container):
             st.session_state.data.loc[st.session_state.counter, 'feature']=0
             print(st.session_state.data.loc[[st.session_state.counter]])
             st.session_state.counter+=1
-            load_new_image(params, image_container)
+            load_new_image()
 
 
 #yes button with function to update the csv file and then load up a new image
-def yes_button_callback(params, image_container):
+def yes_button_callback():
     if user_file!=None:
         st.session_state.data.loc[st.session_state.counter, 'feature']=1
         st.session_state.counter+=1
-        load_new_image(params, image_container)
+        load_new_image()
 #st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback, args=(counter,data,params, image_container))
 
 
 
 #no button with function to update the csv file and then load up a new image
-def no_button_callback(params, image_container):
+def no_button_callback():
     if user_file!=None:
         st.session_state.data.loc[st.session_state.counter, 'feature']=0
         st.session_state.counter+=1
-        load_new_image(params, image_container)
+        load_new_image()
 #st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback, args=(counter,data,params, image_container))
 
 
@@ -78,8 +78,8 @@ if user_file!=None:
         st.session_state.counter = 0
         load_new_image(params, image_container)
         args=(params, image_container)
-        st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback, args=[params, image_container])
-        st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback, args=[params, image_container])
+        st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback)
+        st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
 
 
 #This button takes the pandas dataframe and turns it into a CSV file, then shows a download button
