@@ -36,12 +36,11 @@ def load_new_image():
         z = 15
         url='https://tile.googleapis.com/v1/2dtiles/'+str(z)+"/"+str(x)+"/"+str(y)
         print(url)
-        print(st.session_state.params)
         map = requests.get(url=url, params=st.session_state.params)
         #checks that map has any features... google api will not return maps for the ocean, only areas with features
         if map.ok:
             display_image = map.content
-            with image_container:
+            with st.session_state.image_container:
                 st.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
