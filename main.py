@@ -38,6 +38,22 @@ def load_new_image(data, counter, params):
         if map.ok:
             display_image = map.content
             st.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
+            #yes button with function to update the csv file and then load up a new image
+            def yes_button_callback():
+                global data
+                global counter
+                data.feature[counter]='yes'
+                counter=counter+1
+                load_new_image()
+            st.button(label='Yes', help='Yes = The feature IS shown in the image', on_click=yes_button_callback)
+            #no button with function to update the csv file and then load up a new image
+            def no_button_callback():
+                global counter
+                global data
+                data.feature[counter]='no'
+                counter=counter+1
+                load_new_image()
+            st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
             data.feature[counter]='no'
@@ -45,28 +61,6 @@ def load_new_image(data, counter, params):
             counter=counter+1
             load_new_image(data,counter, params)
         return counter
-
-
-#yes button with function to update the csv file and then load up a new image
-def yes_button_callback():
-    if user_file!=None:
-        data.feature[counter]='yes'
-        counter=counter+1
-        load_new_image()
-
-st.button(label='Yes', help='Yes = The feature IS shown in the image', on_click=yes_button_callback)
-
-
-#no button with function to update the csv file and then load up a new image
-def no_button_callback():
-    global counter
-    global data
-    if user_file!=None:
-        data.feature[counter]='no'
-        counter=counter+1
-        load_new_image()
-st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
-
 
 #user uploads file here
 #when user uploads new file, counter is reset, and the first image is loaded
