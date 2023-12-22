@@ -56,7 +56,6 @@ def yes_button_callback():
         st.session_state.data.loc[st.session_state.counter, 'feature']=1
         st.session_state.counter+=1
         load_new_image()
-#st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback, args=(counter,data,params, image_container))
 
 
 
@@ -66,7 +65,6 @@ def no_button_callback():
         st.session_state.data.loc[st.session_state.counter, 'feature']=0
         st.session_state.counter+=1
         load_new_image()
-#st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback, args=(counter,data,params, image_container))
 
 
 #user uploads file here
@@ -74,7 +72,7 @@ def no_button_callback():
 user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
 if user_file!=None:
     st.session_state.data=pd.read_csv(user_file)
-    if len(st.session_state.data.x)>0:
+    if len(st.session_state.data.x)>0 and 'counter' not in st.session_state:
         st.session_state.counter = 0
         load_new_image()
         st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback)
