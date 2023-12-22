@@ -1,9 +1,6 @@
 import streamlit as st
 import requests
 import pandas as pd
-import sys
-
-sys.setrecursionlimit(2000)
 
 headers = {
     'Content-Type': 'application/json',
@@ -21,6 +18,11 @@ json_data = {
 user_file=None
 session_token_request = requests.post('https://tile.googleapis.com/v1/createSession', params=params, headers=headers, json=json_data)
 print(session_token_request.json())
+
+params = {
+    'session': session_token_request.json()['session'],
+    'key': 'AIzaSyA4MhqXRYSOSOkfKw5vk-YYupMuYPMFcMQ',
+}
 
 #function to load up images from google maps api:
 def load_new_image(data, counter, params):
@@ -68,10 +70,6 @@ st.button(label='No', help="No = The feature IS NOT shown in the image", on_clic
 
 #user uploads file here
 #when user uploads new file, counter is reset, and the first image is loaded
-def new_file_uploaded(user_file):
-    data=pd.read_csv(user_file)
-    counter = 0
-    load_new_image(data, counter)
 user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
 if user_file!=None:
     data=pd.read_csv(user_file)
