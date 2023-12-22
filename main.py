@@ -24,8 +24,10 @@ params = {
     'key': 'AIzaSyA4MhqXRYSOSOkfKw5vk-YYupMuYPMFcMQ',
 }
 
+image_container = st.empty()
+
 #function to load up images from google maps api:
-def load_new_image(data, counter, params):
+def load_new_image(data, counter, params, image_container):
     #returns none if all the coordinates have been shown
     if counter<len(data.x):
         x = data.x[counter]
@@ -37,25 +39,8 @@ def load_new_image(data, counter, params):
         #checks that map has any features... google api will not return maps for the ocean, only areas with features
         if map.ok:
             display_image = map.content
-            st.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
-            #yes button with function to update the csv file and then load up a new image
-            def yes_button_callback():
-                global data
-                global counter
-                global params
-                data.feature[counter]='yes'
-                counter=counter+1
-                load_new_image(data, counter, params)
-            st.button(label='Yes', help='Yes = The feature IS shown in the image', on_click=yes_button_callback)
-            #no button with function to update the csv file and then load up a new image
-            def no_button_callback():
-                global counter
-                global data
-                global params
-                data.feature[counter]='no'
-                counter=counter+1
-                load_new_image(counter, data, params)
-            st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
+            with image_container:
+                st.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
             data.feature[counter]='no'
@@ -64,14 +49,36 @@ def load_new_image(data, counter, params):
             load_new_image(data,counter, params)
         return counter
 
+
+#yes button with function to update the csv file and then load up a new image
+def yes_button_callback(counter,data,params, image_container):
+    if user_file!=None:
+        data.feature[counter]='yes'
+        counter=counter+1
+        load_new_image(data,counter, params, image_container)
+st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback, args=(counter,data,params, image_container))
+
+
+
+#no button with function to update the csv file and then load up a new image
+def no_button_callback(counter,data,params, image_container):
+    if user_file!=None:
+        data.feature[counter]='no'
+        counter=counter+1
+        load_new_image(data,counter, params, image_container)
+st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback, args=(counter,data,params, image_container))
+
+
 #user uploads file here
 #when user uploads new file, counter is reset, and the first image is loaded
 user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
 if user_file!=None:
     data=pd.read_csv(user_file)
-    counter = 0
-    load_new_image(data, counter, params)
-
+    if len(data.x)>0:
+        counter = 0
+        load_new_image(data, counter, params, image_container)
+        st.button(label="Yes", help="Yes = The feature IS shown in the image")
+        st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
 
 
 #This button takes the pandas dataframe and turns it into a CSV file, then shows a download button
