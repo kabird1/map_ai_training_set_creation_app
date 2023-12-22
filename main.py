@@ -23,6 +23,7 @@ print(session_token_request.json())
 def load_new_image():
     global display_image
     global counter
+    global data
     #returns none if all the coordinates have been shown
     if counter<len(data.x):
         x = data.x[counter]
