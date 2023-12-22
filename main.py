@@ -26,6 +26,7 @@ params = {
 
 image_container = st.empty()
 counter=0
+data=None
 
 #function to load up images from google maps api:
 def load_new_image(data, counter, params, image_container):
