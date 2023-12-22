@@ -58,7 +58,7 @@ def yes_button_callback(counter,data,params, image_container):
         data.feature[counter]='yes'
         counter=counter+1
         load_new_image(data,counter, params, image_container)
-st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback, args=(counter,data,params, image_container))
+#st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback, args=(counter,data,params, image_container))
 
 
 
@@ -68,7 +68,7 @@ def no_button_callback(counter,data,params, image_container):
         data.feature[counter]='no'
         counter=counter+1
         load_new_image(data,counter, params, image_container)
-st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback, args=(counter,data,params, image_container))
+#st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback, args=(counter,data,params, image_container))
 
 
 #user uploads file here
@@ -79,8 +79,8 @@ if user_file!=None:
     if len(data.x)>0:
         counter = 0
         load_new_image(data, counter, params, image_container)
-        st.button(label="Yes", help="Yes = The feature IS shown in the image")
-        st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
+        st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback, args=(counter,data,params, image_container))
+        st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback, args=(counter,data,params, image_container))
 
 
 #This button takes the pandas dataframe and turns it into a CSV file, then shows a download button
