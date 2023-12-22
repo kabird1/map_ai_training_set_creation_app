@@ -85,7 +85,7 @@ if user_file!=None:
 #This button takes the pandas dataframe and turns it into a CSV file, then shows a download button
 def update_file_callback():
     if user_file!=None:
-        output_csv = data.to_csv().encode('utf-8')
+        output_csv = st.session_state.data.to_csv().encode('utf-8')
         st.download_button(label="Download updated CSV", data=output_csv, file_name='maps_training_data.csv', mime='text/csv')
 st.button(label="Update my .csv file", help="Updates the CSV file with your yes and no answers", on_click=update_file_callback)
 
