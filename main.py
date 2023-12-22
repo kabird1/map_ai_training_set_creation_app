@@ -47,7 +47,7 @@ def load_new_image(params, image_container):
         else:
             st.session_state.data.loc[st.session_state.counter, 'feature']=0
             print(st.session_state.data.loc[[st.session_state.counter]])
-            st.session_state.counter=st.session_state.counter+1
+            st.session_state.counter+=1
             load_new_image(params, image_container)
 
 
@@ -55,7 +55,7 @@ def load_new_image(params, image_container):
 def yes_button_callback(params, image_container):
     if user_file!=None:
         st.session_state.data.loc[st.session_state.counter, 'feature']=1
-        st.session_state.counter=st.session_state.counter+1
+        st.session_state.counter+=1
         load_new_image(params, image_container)
 #st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback, args=(counter,data,params, image_container))
 
@@ -65,7 +65,7 @@ def yes_button_callback(params, image_container):
 def no_button_callback(params, image_container):
     if user_file!=None:
         st.session_state.data.loc[st.session_state.counter, 'feature']=0
-        st.session_state.counter=st.session_state.counter+1
+        st.session_state.counter+=1
         load_new_image(params, image_container)
 #st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback, args=(counter,data,params, image_container))
 
