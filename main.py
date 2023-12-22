@@ -78,7 +78,7 @@ def no_button_callback():
 st.session_state.user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
 if st.session_state.user_file!=None:
     st.session_state.data=pd.read_csv(st.session_state.user_file)
-    st.dataframe(data=st.session_state.data)
+    st.data_editor(data=st.session_state.data)
     if len(st.session_state.data.x)>0:
         load_new_image()
         st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback)
