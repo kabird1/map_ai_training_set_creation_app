@@ -31,7 +31,7 @@ st.session_state.data=None
 #function to load up images from google maps api:
 def load_new_image(params, image_container):
     #returns none if all the coordinates have been shown
-    if st.session_state.counter<len(data.x):
+    if st.session_state.counter<len(st.session_state.data.x):
         x = st.session_state.data.x[st.session_state.counter]
         y = st.session_state.data.y[st.session_state.counter]
         z = 15
