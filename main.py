@@ -29,8 +29,6 @@ st.session_state.params = {
 #function to load up images from google maps api:
 def load_new_image():
     #returns none if all the coordinates have been shown
-    if 'image_container' not in st.session_state:
-        st.session_state.image_container = st.empty()
     if st.session_state.counter<len(st.session_state.data.x):
         x = st.session_state.data.x[st.session_state.counter]
         y = st.session_state.data.y[st.session_state.counter]
@@ -72,15 +70,18 @@ def no_button_callback():
 #when user uploads new file, counter is reset, and the first image is loaded
 user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
 if user_file!=None:
-    if 'data' not in st.session_state:
-        st.session_state.data=None
     st.session_state.data=pd.read_csv(user_file)
     if len(st.session_state.data.x)>0:
-        if 'counter' not in st.session_state:
-            st.session_state.counter = 0
         load_new_image()
         st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback)
         st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
+
+if 'data' not in st.session_state:
+    st.session_state.data=None
+if 'counter' not in st.session_state:
+    st.session_state.counter = 0
+if 'image_container' not in st.session_state:
+    st.session_state.image_container = st.empty()
 
 
 #This button takes the pandas dataframe and turns it into a CSV file, then shows a download button
