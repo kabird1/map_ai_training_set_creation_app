@@ -42,17 +42,19 @@ def load_new_image(data, counter, params):
             def yes_button_callback():
                 global data
                 global counter
+                global params
                 data.feature[counter]='yes'
                 counter=counter+1
-                load_new_image()
+                load_new_image(data, counter, params)
             st.button(label='Yes', help='Yes = The feature IS shown in the image', on_click=yes_button_callback)
             #no button with function to update the csv file and then load up a new image
             def no_button_callback():
                 global counter
                 global data
+                global params
                 data.feature[counter]='no'
                 counter=counter+1
-                load_new_image()
+                load_new_image(counter, data, params)
             st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
