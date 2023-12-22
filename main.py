@@ -22,6 +22,7 @@ print(session_token_request.json())
 #function to load up images from google maps api:
 def load_new_image():
     global display_image
+    global counter
     #returns none if all the coordinates have been shown
     if counter<len(data.x):
         x = data.x[counter]
@@ -68,6 +69,7 @@ st.button(label='No', help="No = The feature IS NOT shown in the image", on_clic
 def new_file_uploaded():
     global counter
     global data
+    global user_file
     data=pd.read_csv(user_file)
     counter = 0
     load_new_image()
