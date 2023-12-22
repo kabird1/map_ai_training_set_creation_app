@@ -20,8 +20,7 @@ session_token_request = requests.post('https://tile.googleapis.com/v1/createSess
 print(session_token_request.json())
 
 #function to load up images from google maps api:
-def load_new_image(data, counter):
-    global display_image
+def load_new_image(data, counter, params):
     #returns none if all the coordinates have been shown
     if counter<len(data.x):
         x = data.x[counter]
@@ -39,7 +38,7 @@ def load_new_image(data, counter):
             data.feature[counter]='no'
             print(data.loc[[counter]])
             counter=counter+1
-            load_new_image(data,counter)
+            load_new_image(data,counter, params)
         return counter
 
 
@@ -73,9 +72,8 @@ def new_file_uploaded(user_file):
 user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
 if user_file!=None:
     data=pd.read_csv(user_file)
-    print(data)
     counter = 0
-    load_new_image(data, counter)
+    load_new_image(data, counter, params)
 
 
 
