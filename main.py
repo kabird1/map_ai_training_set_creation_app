@@ -14,6 +14,8 @@ json_data = {
     'mapType': 'satellite',
     'language': 'en-US',
     'region': 'US',
+    'scale': 'scaleFactor4x',
+    'highDpi': 'true'
 }
 if 'user_file' not in st.session_state:
     st.session_state.user_file=None
@@ -88,7 +90,7 @@ if st.session_state.user_file!=None:
         load_new_image()
         st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback)
         st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
-        st.data_editor(data=st.session_state.data, use_container_width=True)
+        st.data_editor(data=st.session_state, use_container_width=True)
 
 
 
