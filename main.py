@@ -47,8 +47,7 @@ def load_new_image():
         if map.ok:
             display_image = map.content
             st.session_state.image_container.empty()
-            with st.session_state.image_container.container():
-                st.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
+            st.session_state.image_container.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
             st.session_state.data.at[st.session_state.counter, 'feature']=0
