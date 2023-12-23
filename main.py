@@ -29,8 +29,8 @@ if 'data' not in st.session_state:
     st.session_state.data=None
 if 'counter' not in st.session_state:
     st.session_state.counter = 0
-if 'image_container' not in st.session_state:
-    st.session_state.image_container = st.empty()
+
+st.session_state.image_container = st.empty()
 
 
 #function to load up images from google maps api:
