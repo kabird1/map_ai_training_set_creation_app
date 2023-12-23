@@ -50,20 +50,19 @@ def load_new_image():
                 st.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
-            data_manip = st.session_state.data
-            data_manip.at[st.session_state.counter, 'feature']=0
-            st.session_state.data = data_manip
+            st.session_state.data.feature[st.session_state.counter]=0
             print(st.session_state.data.loc[[st.session_state.counter]])
             st.session_state.counter+=1
             load_new_image()
+    else:
+        with st.session_state.image_container.container():
+            st.write("You've reached the end of the data set")
 
 
 #yes button with function to update the csv file and then load up a new image
 def yes_button_callback():
     if st.session_state.user_file!=None:
-        data_manip = st.session_state.data
-        data_manip.at[st.session_state.counter, 'feature']=1
-        st.session_state.data = data_manip
+        st.session_state.data.feature[st.session_state.counter]=1
         st.session_state.counter+=1
         load_new_image()
 
@@ -72,9 +71,7 @@ def yes_button_callback():
 #no button with function to update the csv file and then load up a new image
 def no_button_callback():
     if st.session_state.user_file!=None:
-        data_manip = st.session_state.data
-        data_manip.at[st.session_state.counter, 'feature']=0
-        st.session_state.data = data_manip
+        st.session_state.data.feature[st.session_state.counter]=0
         st.session_state.counter+=1
         load_new_image()
 
@@ -84,11 +81,11 @@ def no_button_callback():
 st.session_state.user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
 if st.session_state.user_file!=None:
     st.session_state.data=pd.read_csv(st.session_state.user_file)
-    st.data_editor(data=st.session_state.data)
     if len(st.session_state.data.x)>0:
         load_new_image()
         st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback)
         st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
+        st.data_editor(data=st.session_state.data)
 
 
 #This takes the pandas dataframe and turns it into a CSV file, and shows a download button
