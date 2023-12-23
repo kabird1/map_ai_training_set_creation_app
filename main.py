@@ -78,7 +78,7 @@ def no_button_callback():
 
 #user uploads file here
 #when user uploads new file, counter is reset, and the first image is loaded
-if st.session.user_file==None:
+if st.session_state.user_file==None:
     st.session_state.user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
 else:
     if st.session_state.counter==0:
