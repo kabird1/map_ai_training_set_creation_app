@@ -82,11 +82,11 @@ st.session_state.user_file=st.file_uploader(label="Upload CSV", type={"csv","txt
 if st.session_state.user_file!=None:
     if st.session_state.counter==0:
         st.session_state.data=pd.read_csv(st.session_state.user_file)
-        if len(st.session_state.data.x)>0:
-            load_new_image()
-            st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback)
-            st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
-            st.data_editor(data=st.session_state.data)
+    if len(st.session_state.data.x)>0:
+        load_new_image()
+        st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback)
+        st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
+        st.data_editor(data=st.session_state.data)
 
 
 #This takes the pandas dataframe and turns it into a CSV file, and shows a download button
