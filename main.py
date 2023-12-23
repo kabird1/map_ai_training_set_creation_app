@@ -50,7 +50,9 @@ def load_new_image():
                 st.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
-            st.session_state.data.at[st.session_state.counter, 'feature']=0
+            data_manip = st.session_state.data
+            data_manip.at[st.session_state.counter, 'feature']=0
+            st.session_state.data = data_manip
             print(st.session_state.data.loc[[st.session_state.counter]])
             st.session_state.counter+=1
             load_new_image()
@@ -59,7 +61,9 @@ def load_new_image():
 #yes button with function to update the csv file and then load up a new image
 def yes_button_callback():
     if st.session_state.user_file!=None:
-        st.session_state.data.at[st.session_state.counter, 'feature']=1
+        data_manip = st.session_state.data
+        data_manip.at[st.session_state.counter, 'feature']=1
+        st.session_state.data = data_manip
         st.session_state.counter+=1
         load_new_image()
 
@@ -68,7 +72,9 @@ def yes_button_callback():
 #no button with function to update the csv file and then load up a new image
 def no_button_callback():
     if st.session_state.user_file!=None:
-        st.session_state.data.at[st.session_state.counter, 'feature']=0
+        data_manip = st.session_state.data
+        data_manip.at[st.session_state.counter, 'feature']=0
+        st.session_state.data = data_manip
         st.session_state.counter+=1
         load_new_image()
 
