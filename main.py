@@ -46,7 +46,7 @@ def load_new_image():
         #checks that map has any features... google api will not return maps for the ocean, only areas with features
         if map.ok:
             display_image = map.content
-            st.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
+            st.session_state.image_container.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
             st.session_state.data.at[st.session_state.counter, 'feature']=0
@@ -79,7 +79,7 @@ def no_button_callback():
 #when user uploads new file, counter is reset, and the first image is loaded
 if st.session_state.user_file==None:
     st.session_state.user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
-
+    st.rerun
 if st.session_state.user_file!=None:
     if st.session_state.counter==0:
         st.session_state.data=pd.read_csv(st.session_state.user_file)
@@ -88,12 +88,6 @@ if st.session_state.user_file!=None:
         st.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback)
         st.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback)
         st.data_editor(data=st.session_state.data)
-
-
-#This takes the pandas dataframe and turns it into a CSV file, and shows a download button
-if st.session_state.user_file!=None:
-    output_csv = st.session_state.data.to_csv().encode('utf-8')
-    st.download_button(label="Download updated CSV", data=output_csv, file_name='maps_training_data.csv', mime='text/csv')
 
 
 
