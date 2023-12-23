@@ -77,9 +77,11 @@ def no_button_callback():
 
 #user uploads file here
 #when user uploads new file, counter is reset, and the first image is loaded
-if st.session_state.user_file==None:
-    st.session_state.user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
+def rerun():
     st.rerun()
+if st.session_state.user_file==None:
+    st.session_state.user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.", on_change=rerun)
+
 if st.session_state.user_file!=None:
     if st.session_state.counter==0:
         st.session_state.data=pd.read_csv(st.session_state.user_file)
