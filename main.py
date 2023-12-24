@@ -49,7 +49,8 @@ def help_dropdown():
     help.write('5. Google Maps API does not return images for locations that contain no features \"i.e. the middle of the ocean\". In these cases, \'features\' column will be marked with a \'No\' answer, and the comments column will contain an explanation')
     help.write('6. The annotated coordinates file can be downloaded and can be used to train an AI model.')
 
-if st.session_state.image_container == st.empty():
+image_container=None
+if image_container==None:
     help_dropdown
 
 #function to load up images from google maps api:
