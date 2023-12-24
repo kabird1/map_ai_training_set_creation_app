@@ -51,7 +51,7 @@ def help_dropdown():
 
 image_container=None
 if image_container==None:
-    help_dropdown
+    help_dropdown()
 
 #function to load up images from google maps api:
 def load_new_image():
