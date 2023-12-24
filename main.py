@@ -52,7 +52,6 @@ image_container = st.empty()
 
 #function to load up images from google maps api:
 def load_new_image():
-    #returns none if all the coordinates have been shown
     if st.session_state.counter<len(st.session_state.data.x):
         x = st.session_state.data.x[st.session_state.counter]
         y = st.session_state.data.y[st.session_state.counter]
@@ -91,7 +90,8 @@ def inc_button_callback():
     st.session_state.button_clicked=True
 
 def submit_button_callback():
-    st.session_state.counter+=1
+    if st.session_state.counter<len(st.session_state.data.x):
+        st.session_state.counter+=1
     load_new_image()
 
 #user uploads file here
