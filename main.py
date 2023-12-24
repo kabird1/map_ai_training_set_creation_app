@@ -42,7 +42,7 @@ if 'end_of_file' not in st.session_state:
 help=st.expander("Help")
 help.write('The purpose of this app is to generate a data set to train an AI model to identify features on satellite images of maps.')
 help.write('1.Create .csv file with columns \"x\" and \"y\".')
-help.write('2. Populate with x and y coordinates of locations on the maps. For information on how to enter coordinates see https://developers.google.com/maps/documentation/javascript/coordinates. The app is set to use zoom setting 19.')
+help.write('2. Populate with x and y coordinates of locations on the maps. For information on how to enter coordinates see https://developers.google.com/maps/documentation/javascript/coordinates. To visualize the Google Maps coordinates and zoom, see https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/#3/15.00/50.00. The app is set to use zoom setting 19.')
 help.write('3. Upload the .csv file to the app, using the browse button, or by dragging and dropping your file.')
 help.write('4. The contents of the .csv file are displayed at the bottom of the screen. The user can edit the data by clicking on cells and typing, and can download the edited data at any time.')
 help.write('5. Satellite images of the locations are loaded by Google Maps API and displayed on the screen. Underneath the image, the user can enter their input using the three buttons: Yes, No and Inconclusive. The user can also enter any addition comments.')
@@ -74,7 +74,6 @@ def load_new_image():
             st.session_state.counter+=1
             load_new_image()
     else:
-            image_container.write("You've reached the end of the data set")
             st.session_state.end_of_file=True
             st.session_state.counter=-1
 
