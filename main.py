@@ -7,7 +7,7 @@ headers = {
 }
 
 params = {
-    'key': 'AIzaSyA4MhqXRYSOSOkfKw5vk-YYupMuYPMFcMQ',
+    'key': str(st.secrets["key"]),
 }
 
 json_data = {
@@ -31,8 +31,6 @@ if 'data' not in st.session_state:
     st.session_state.data=None
 if 'counter' not in st.session_state:
     st.session_state.counter = 0
-if 'answer' not in st.session_state:
-    st.session_state.answer = None
 if 'comments' not in st.session_state:
     st.session_state.comments=None
 if 'button_clicked' not in st.session_state:
@@ -52,8 +50,6 @@ help.write('6. The annotated coordinates file can be downloaded and can be used 
 
 #function to load up images from google maps api:
 def load_new_image():
-    st.session_state.answer = None
-    st.session_state.comments=None
     #returns none if all the coordinates have been shown
     if st.session_state.counter<len(st.session_state.data.x):
         x = st.session_state.data.x[st.session_state.counter]
@@ -80,23 +76,24 @@ def load_new_image():
 
 #yes button with function to update the csv file and then load up a new image
 def yes_button_callback():
-    st.session_state.answer=1
+    st.session_state.data.at[st.session_state.counter, 'feature']='Yes'
     st.session_state.button_clicked=True
 
 
 #no button with function to update the csv file and then load up a new image
 def no_button_callback():
-    st.session_state.answer='No'
+    st.session_state.data.at[st.session_state.counter, 'feature']='No'
     st.session_state.button_clicked=True
 
 def inc_button_callback():
-    st.session_state.answer = 'Yes'
+    st.session_state.data.at[st.session_state.counter, 'feature'] = 'Inconclusive'
+    st.session_state.button_clicked=True
 
 def submit_button_callback():
-    st.session_state.data.at[st.session_state.counter, 'feature']=st.session_state.answer
     st.session_state.data.at[st.session_state.counter, 'comments']=st.session_state.comments
     st.session_state.counter+=1
     load_new_image()
+    st.session_state.comments=None
 
 #user uploads file here
 #when user uploads new file, counter is reset, and the first image is loaded
