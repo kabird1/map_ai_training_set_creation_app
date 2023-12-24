@@ -35,23 +35,20 @@ if 'comments' not in st.session_state:
     st.session_state.comments=None
 if 'button_clicked' not in st.session_state:
     st.session_state.button_clicked = False
-if 'end_of_file' not in st.session_state:
-    st.session_state.end_of_file = False
 
 
 help=st.expander("Help")
 help.write('The purpose of this app is to generate a data set to train an AI model to identify features on satellite images of maps.')
 help.write('1.Create .csv file with columns \"x\" and \"y\".')
-help.write('2. Populate with x and y coordinates of locations on the maps. For information on how to enter coordinates see https://developers.google.com/maps/documentation/javascript/coordinates. To visualize the Google Maps coordinates and zoom, see https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/#3/15.00/50.00. The app is set to use zoom setting 19.')
+help.write('2. Populate with x and y coordinates of locations on the maps. For information on how to enter coordinates see https://developers.google.com/maps/documentation/javascript/coordinates. See https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/#19/-20.67/54.74 to visualize map coordinates. The app is set to use zoom setting 19.')
 help.write('3. Upload the .csv file to the app, using the browse button, or by dragging and dropping your file.')
 help.write('4. The contents of the .csv file are displayed at the bottom of the screen. The user can edit the data by clicking on cells and typing, and can download the edited data at any time.')
-help.write('5. Satellite images of the locations are loaded by Google Maps API and displayed on the screen. Underneath the image, the user can enter their input using the three buttons: Yes, No and Inconclusive. The user can also enter any additional comments.')
+help.write('5. Satellite images of the locations are loaded by Google Maps API and displayed on the screen. Underneath the image, the user can enter their input using the three buttons: Yes, No and Inconclusive. The user can also enter any addition comments.')
 help.write('6. Upon pressing the submit button, the Yes/No/Inconclusive selection is entered under the \'features\' column appended to the user\'s .csv file. The comments entered in the textbox are entered under the \'comments\' column appended to the user\'s .csv file. To ensure comments are submitted, the user must press \'CTRL+Enter\' or click out of the textbox to pass the value to the .csv file.')
 help.write('5. Google Maps API does not return images for locations that contain no features \"i.e. the middle of the ocean\". In these cases, \'features\' column will be marked with a \'No\' answer, and the comments column will contain an explanation')
 help.write('6. The annotated coordinates file can be downloaded and used to train an AI model.')
 
 image_container = st.empty()
-
 
 #function to load up images from google maps api:
 def load_new_image():
@@ -74,8 +71,7 @@ def load_new_image():
             st.session_state.counter+=1
             load_new_image()
     else:
-        st.session_state.end_of_file=True
-        st.session_state.counter=-1
+            st.write("You've reached the end of the data set")
 
 
 #yes button with function to update the csv file and then load up a new image
@@ -94,9 +90,9 @@ def inc_button_callback():
     st.session_state.button_clicked=True
 
 def submit_button_callback():
-    if st.session_state.end_of_file==False:
-        st.session_state.counter=+1
-        load_new_image()
+    if st.session_state.counter<len(st.session_state.data.x):
+        st.session_state.counter+=1
+    load_new_image()
 
 #user uploads file here
 #when user uploads new file, counter is reset, and the first image is loaded
