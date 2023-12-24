@@ -50,7 +50,6 @@ help.write('6. The annotated coordinates file can be downloaded and can be used 
 
 #function to load up images from google maps api:
 def load_new_image():
-    image_container = st.empty()
     #returns none if all the coordinates have been shown
     if st.session_state.counter<len(st.session_state.data.x):
         x = st.session_state.data.x[st.session_state.counter]
@@ -62,7 +61,7 @@ def load_new_image():
         #checks that map has any features... google api will not return maps for the ocean, only areas with features
         if map.ok:
             display_image = map.content
-            image_container.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
+            st.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
             st.session_state.data.at[st.session_state.counter, 'feature']='No'
@@ -71,7 +70,7 @@ def load_new_image():
             st.session_state.counter+=1
             load_new_image()
     else:
-            image_container.write("You've reached the end of the data set")
+            st.write("You've reached the end of the data set")
 
 
 #yes button with function to update the csv file and then load up a new image
