@@ -90,10 +90,8 @@ def inc_button_callback():
     st.session_state.button_clicked=True
 
 def submit_button_callback():
-    st.session_state.data.at[st.session_state.counter, 'comments']=st.session_state.comments
     st.session_state.counter+=1
     load_new_image()
-    st.session_state.comments=None
 
 #user uploads file here
 #when user uploads new file, counter is reset, and the first image is loaded
@@ -112,7 +110,7 @@ if st.session_state.user_file!=None:
         col1.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback, use_container_width=True)
         col2.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback, use_container_width=True)
         col3.button(label="Inconclusive", help = "Inconclusive = Unsure if feature is shown in the image", on_click=inc_button_callback, use_container_width=True)
-        st.session_state.comments = st.text_area(label="Comments", label_visibility="hidden", placeholder="Enter your comments here")
+        st.session_state.data.at[st.session_state.counter, 'comments'] = st.text_area(label="Comments", label_visibility="hidden", placeholder="Enter your comments here")
         st.button(label="Submit", help="Submit the data, update the .csv file and move to the next image", on_click=submit_button_callback, use_container_width=True)
         st.data_editor(data=st.session_state.data, use_container_width=True)
 
