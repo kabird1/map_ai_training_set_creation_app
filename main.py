@@ -46,7 +46,7 @@ help.write('4. The contents of the .csv file are displayed at the bottom of the 
 help.write('5. Satellite images of the locations are loaded by Google Maps API and displayed on the screen. Underneath the image, the user can enter their input using the three buttons: Yes, No and Inconclusive. The user can also enter any addition comments.')
 help.write('6. Upon pressing the submit button, the Yes/No/Inconclusive selection is entered under the \'features\' column appended to the user\'s .csv file. The comments entered in the textbox are entered under the \'comments\' column appended to the user\'s .csv file. To ensure comments are submitted, the user must press \'CTRL+Enter\' or click out of the textbox to pass the value to the .csv file.')
 help.write('5. Google Maps API does not return images for locations that contain no features \"i.e. the middle of the ocean\". In these cases, \'features\' column will be marked with a \'No\' answer, and the comments column will contain an explanation')
-help.write('6. The annotated coordinates file can be downloaded and used to train an AI model.')
+help.write('6. The annotated coordinates file can be downloaded using the button at the top right corner of the data table, and can then be used to train an AI model.')
 
 image_container = st.empty()
 
