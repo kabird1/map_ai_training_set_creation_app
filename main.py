@@ -35,6 +35,8 @@ if 'comments' not in st.session_state:
     st.session_state.comments=None
 if 'button_clicked' not in st.session_state:
     st.session_state.button_clicked = False
+if 'end_of_file' not in st.session_state:
+    st.session_state.end_of_file = False
 
 
 help=st.expander("Help")
@@ -49,6 +51,7 @@ help.write('5. Google Maps API does not return images for locations that contain
 help.write('6. The annotated coordinates file can be downloaded and can be used to train an AI model.')
 
 image_container = st.empty()
+
 
 #function to load up images from google maps api:
 def load_new_image():
@@ -73,6 +76,7 @@ def load_new_image():
     else:
             st.write("You've reached the end of the data set")
             st.session_state.end_of_file=True
+            st.session_state.counter=-1
 
 
 #yes button with function to update the csv file and then load up a new image
@@ -92,6 +96,7 @@ def inc_button_callback():
 
 def submit_button_callback():
     if st.session_state.end_of_file==False:
+        st.session_state.counter=+1
         load_new_image()
 
 #user uploads file here
