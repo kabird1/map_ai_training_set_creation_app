@@ -74,7 +74,7 @@ def load_new_image():
             st.session_state.counter+=1
             load_new_image()
     else:
-            st.write("You've reached the end of the data set")
+            image_container.write("You've reached the end of the data set")
             st.session_state.end_of_file=True
             st.session_state.counter=-1
 
