@@ -77,8 +77,7 @@ def load_new_image():
             st.session_state.counter+=1
             load_new_image()
     else:
-        with st.session_state.image_container.container():
-            st.write("You've reached the end of the data set")
+            image_container.write("You've reached the end of the data set")
 
 
 #yes button with function to update the csv file and then load up a new image
