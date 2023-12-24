@@ -24,7 +24,7 @@ print(session_token_request.json())
 
 st.session_state.params = {
     'session': session_token_request.json()['session'],
-    'key': 'AIzaSyA4MhqXRYSOSOkfKw5vk-YYupMuYPMFcMQ',
+    'key': str(st.secrets["key"]),
 }
 
 if 'data' not in st.session_state:
@@ -37,7 +37,16 @@ if 'comments' not in st.session_state:
     st.session_state.comments=None
 st.session_state.image_container = st.empty()
 
-
+help=st.expander("Help")
+help.write('The purpose of this app is to generate a data set to train an AI model to identify features on satellite images of maps.')
+help.write('1.Create .csv file with columns \"x\" and \"y\".')
+help.write('2. Populate with x and y coordinates of locations on the maps. For information on how to enter coordinates see https://developers.google.com/maps/documentation/javascript/coordinates. The app is set to use zoom setting 19.')
+help.write('3. Upload the .csv file to the app, using the browse button, or by dragging and dropping your file.')
+help.write('4. The contents of the .csv file are displayed at the bottom of the screen. The user can edit the data by clicking on cells and typing, and can download the edited data at any time.')
+help.write('5. Satellite images of the locations are loaded by Google Maps API and displayed on the screen. Underneath the image, the user can enter their input using the three buttons: Yes, No and Inconclusive. The user can also enter any addition comments.')
+help.write('6. Upon pressing the submit button, the Yes/No/Inconclusive selection is entered under the \'features\' column appended to the user\'s .csv file. The comments entered in the textbox are entered under the \'comments\' column appended to the user\'s .csv file')
+help.write('5. Google Maps API does not return images for locations that contain no features \"i.e. the middle of the ocean\". In these cases, \'features\' column will be marked with a \'No\' answer, and the comments column will contain an explanation')
+help.write('6. The annotated coordinates file can be downloaded and can be used to train an AI model.')
 
 #function to load up images from google maps api:
 def load_new_image():
@@ -45,7 +54,7 @@ def load_new_image():
     if st.session_state.counter<len(st.session_state.data.x):
         x = st.session_state.data.x[st.session_state.counter]
         y = st.session_state.data.y[st.session_state.counter]
-        z = 15
+        z = 19
         url='https://tile.googleapis.com/v1/2dtiles/'+str(z)+"/"+str(x)+"/"+str(y)
         print(url)
         map = requests.get(url=url, params=st.session_state.params)
@@ -102,7 +111,7 @@ if st.session_state.user_file!=None:
         col2.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback, use_container_width=True)
         col3.button(label="Inconclusive", help = "Inconclusive = Unsure if feature is shown in the image", on_click=inc_button_callback, use_container_width=True)
         st.session_state.comments = st.text_area(label="Comments", label_visibility="hidden", placeholder="Enter your comments here")
-        st.button(label="Submit", help="Submit the data and update the .csv file", on_click=submit_button_callback, use_container_width=True)
+        st.button(label="Submit", help="Submit the data, update the .csv file and move to the next image", on_click=submit_button_callback, use_container_width=True)
         st.data_editor(data=st.session_state.data, use_container_width=True)
 
 
