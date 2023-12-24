@@ -15,7 +15,9 @@ json_data = {
     'language': 'en-US',
     'region': 'US',
     'scale': 'scaleFactor4x',
-    'highDpi': 'true'
+    'highDpi': 'true',
+    'tileWidth': 1024,
+    'tileHeight': 1024
 }
 if 'user_file' not in st.session_state:
     st.session_state.user_file=None
