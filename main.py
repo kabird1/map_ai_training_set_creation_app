@@ -52,6 +52,8 @@ help.write('6. The annotated coordinates file can be downloaded and can be used 
 
 #function to load up images from google maps api:
 def load_new_image():
+    st.session_state.answer = None
+    st.session_state.comments=None
     #returns none if all the coordinates have been shown
     if st.session_state.counter<len(st.session_state.data.x):
         x = st.session_state.data.x[st.session_state.counter]
