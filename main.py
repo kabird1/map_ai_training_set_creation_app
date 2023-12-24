@@ -48,6 +48,8 @@ help.write('6. Upon pressing the submit button, the Yes/No/Inconclusive selectio
 help.write('5. Google Maps API does not return images for locations that contain no features \"i.e. the middle of the ocean\". In these cases, \'features\' column will be marked with a \'No\' answer, and the comments column will contain an explanation')
 help.write('6. The annotated coordinates file can be downloaded and can be used to train an AI model.')
 
+image_container = st.empty()
+
 #function to load up images from google maps api:
 def load_new_image():
     #returns none if all the coordinates have been shown
@@ -61,7 +63,7 @@ def load_new_image():
         #checks that map has any features... google api will not return maps for the ocean, only areas with features
         if map.ok:
             display_image = map.content
-            st.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
+            image_container.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
             st.session_state.data.at[st.session_state.counter, 'feature']='No'
