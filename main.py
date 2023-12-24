@@ -35,7 +35,7 @@ if 'comments' not in st.session_state:
     st.session_state.comments=None
 if 'button_clicked' not in st.session_state:
     st.session_state.button_clicked = False
-st.session_state.image_container = st.empty()
+
 
 def help_dropdown():
     help=st.expander("Help")
@@ -54,6 +54,7 @@ if st.session_state.image_container == st.empty():
 
 #function to load up images from google maps api:
 def load_new_image():
+    image_container = st.empty()
     #returns none if all the coordinates have been shown
     if st.session_state.counter<len(st.session_state.data.x):
         x = st.session_state.data.x[st.session_state.counter]
@@ -66,7 +67,8 @@ def load_new_image():
         if map.ok:
             help_dropdown()
             display_image = map.content
-            st.session_state.image_container.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
+            image_container.empty()
+            image_container.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
             st.session_state.data.at[st.session_state.counter, 'feature']='No'
