@@ -35,6 +35,8 @@ if 'answer' not in st.session_state:
     st.session_state.answer = None
 if 'comments' not in st.session_state:
     st.session_state.comments=None
+if 'button_clicked' not in st.session_state:
+    st.session_state.button_clicked = False
 st.session_state.image_container = st.empty()
 
 help=st.expander("Help")
@@ -77,12 +79,13 @@ def load_new_image():
 #yes button with function to update the csv file and then load up a new image
 def yes_button_callback():
     st.session_state.answer=1
-
+    st.session_state.button_clicked=True
 
 
 #no button with function to update the csv file and then load up a new image
 def no_button_callback():
     st.session_state.answer='No'
+    st.session_state.button_clicked=True
 
 def inc_button_callback():
     st.session_state.answer = 'Yes'
@@ -100,7 +103,7 @@ if st.session_state.user_file==None:
     st.session_state.user_file=st.file_uploader(label="Upload CSV", type={"csv","txt"}, help="CSV File containg the following columns X-coordinate, Y-Coordinate, Feature, Yes/No.")
 
 if st.session_state.user_file!=None:
-    if st.session_state.counter==0:
+    if st.session_state.counter==0 and st.session_state.button_clicked==False:
         st.session_state.data=pd.read_csv(st.session_state.user_file)
         st.session_state.data.at[st.session_state.counter, 'feature']=''
         st.session_state.data.at[st.session_state.counter, 'comments']=''
