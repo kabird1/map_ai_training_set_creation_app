@@ -72,6 +72,7 @@ def load_new_image():
             load_new_image()
     else:
             st.write("You've reached the end of the data set")
+            st.session_state.end_of_file=True
 
 
 #yes button with function to update the csv file and then load up a new image
@@ -90,9 +91,8 @@ def inc_button_callback():
     st.session_state.button_clicked=True
 
 def submit_button_callback():
-    if st.session_state.counter<len(st.session_state.data.x):
-        st.session_state.counter+=1
-    load_new_image()
+    if st.session_state.end_of_file==False:
+        load_new_image()
 
 #user uploads file here
 #when user uploads new file, counter is reset, and the first image is loaded
