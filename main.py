@@ -72,10 +72,10 @@ def yes_button_callback():
 
 #no button with function to update the csv file and then load up a new image
 def no_button_callback():
-    st.session_state.answer=0
+    st.session_state.answer='No'
 
 def inc_button_callback():
-    st.session_state.answer = 2
+    st.session_state.answer = 'Yes'
 
 def submit_button_callback():
     st.session_state.data.at[st.session_state.counter, 'feature']=st.session_state.answer
