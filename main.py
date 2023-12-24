@@ -33,9 +33,10 @@ if 'counter' not in st.session_state:
     st.session_state.counter = 0
 if 'answer' not in st.session_state:
     st.session_state.answer = None
-
+if 'comments' not in st.session_state:
+    st.session_state.comments=None
 st.session_state.image_container = st.empty()
-st.session_state.comments = None
+
 
 
 #function to load up images from google maps api:
