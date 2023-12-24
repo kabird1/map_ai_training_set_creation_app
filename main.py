@@ -37,16 +37,20 @@ if 'button_clicked' not in st.session_state:
     st.session_state.button_clicked = False
 st.session_state.image_container = st.empty()
 
-help=st.expander("Help")
-help.write('The purpose of this app is to generate a data set to train an AI model to identify features on satellite images of maps.')
-help.write('1.Create .csv file with columns \"x\" and \"y\".')
-help.write('2. Populate with x and y coordinates of locations on the maps. For information on how to enter coordinates see https://developers.google.com/maps/documentation/javascript/coordinates. The app is set to use zoom setting 19.')
-help.write('3. Upload the .csv file to the app, using the browse button, or by dragging and dropping your file.')
-help.write('4. The contents of the .csv file are displayed at the bottom of the screen. The user can edit the data by clicking on cells and typing, and can download the edited data at any time.')
-help.write('5. Satellite images of the locations are loaded by Google Maps API and displayed on the screen. Underneath the image, the user can enter their input using the three buttons: Yes, No and Inconclusive. The user can also enter any addition comments.')
-help.write('6. Upon pressing the submit button, the Yes/No/Inconclusive selection is entered under the \'features\' column appended to the user\'s .csv file. The comments entered in the textbox are entered under the \'comments\' column appended to the user\'s .csv file')
-help.write('5. Google Maps API does not return images for locations that contain no features \"i.e. the middle of the ocean\". In these cases, \'features\' column will be marked with a \'No\' answer, and the comments column will contain an explanation')
-help.write('6. The annotated coordinates file can be downloaded and can be used to train an AI model.')
+def help_dropdown():
+    help=st.expander("Help")
+    help.write('The purpose of this app is to generate a data set to train an AI model to identify features on satellite images of maps.')
+    help.write('1.Create .csv file with columns \"x\" and \"y\".')
+    help.write('2. Populate with x and y coordinates of locations on the maps. For information on how to enter coordinates see https://developers.google.com/maps/documentation/javascript/coordinates. The app is set to use zoom setting 19.')
+    help.write('3. Upload the .csv file to the app, using the browse button, or by dragging and dropping your file.')
+    help.write('4. The contents of the .csv file are displayed at the bottom of the screen. The user can edit the data by clicking on cells and typing, and can download the edited data at any time.')
+    help.write('5. Satellite images of the locations are loaded by Google Maps API and displayed on the screen. Underneath the image, the user can enter their input using the three buttons: Yes, No and Inconclusive. The user can also enter any addition comments.')
+    help.write('6. Upon pressing the submit button, the Yes/No/Inconclusive selection is entered under the \'features\' column appended to the user\'s .csv file. The comments entered in the textbox are entered under the \'comments\' column appended to the user\'s .csv file')
+    help.write('5. Google Maps API does not return images for locations that contain no features \"i.e. the middle of the ocean\". In these cases, \'features\' column will be marked with a \'No\' answer, and the comments column will contain an explanation')
+    help.write('6. The annotated coordinates file can be downloaded and can be used to train an AI model.')
+
+if st.session_state.image_container == st.empty():
+    help_dropdown
 
 #function to load up images from google maps api:
 def load_new_image():
@@ -62,6 +66,7 @@ def load_new_image():
         if map.ok:
             display_image = map.content
             st.session_state.image_container.image(image=display_image, caption="Satellite image at coordinates X="+str(x)+", Y="+str(y)+", Copyright Map data ©2023")
+            help_dropdown()
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
             st.session_state.data.at[st.session_state.counter, 'feature']='No'
