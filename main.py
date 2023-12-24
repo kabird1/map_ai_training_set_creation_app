@@ -16,7 +16,7 @@ json_data = {
     'region': 'US',
     'scale': 'scaleFactor4x',
     'highDpi': 'true',
-    'tileWidth': 512,
+    'tileWidth': 1024,
     'tileHeight': 1024
 }
 if 'user_file' not in st.session_state:
