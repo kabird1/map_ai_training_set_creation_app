@@ -55,7 +55,7 @@ def load_new_image():
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
             st.session_state.data.at[st.session_state.counter, 'feature']=0
-            st.session_state.data.at[st.session_state.counter, 'comments']=0
+            st.session_state.data.at[st.session_state.counter, 'comments']='The Google Maps Tiles API did not return an image for this set of coordinates. Google Maps Tiles API does not return images for coordinates that do not contain features, such as images of only blue ocean'
             print(st.session_state.data.loc[[st.session_state.counter]])
             st.session_state.counter+=1
             load_new_image()
@@ -92,6 +92,8 @@ if st.session_state.user_file==None:
 if st.session_state.user_file!=None:
     if st.session_state.counter==0:
         st.session_state.data=pd.read_csv(st.session_state.user_file)
+        st.session_state.data.at[st.session_state.counter, 'feature']=''
+        st.session_state.data.at[st.session_state.counter, 'comments']=''
     if len(st.session_state.data.x)>0:
         load_new_image()
         col1, col2, col3= st.columns(3)
