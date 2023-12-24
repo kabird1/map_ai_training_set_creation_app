@@ -113,6 +113,6 @@ if st.session_state.user_file!=None:
         col3.button(label="Inconclusive", help = "Inconclusive = Unsure if feature is shown in the image", on_click=inc_button_callback, use_container_width=True)
         st.session_state.data.at[st.session_state.counter, 'comments'] = st.text_area(label="Comments", label_visibility="hidden", placeholder="Enter your comments here")
         st.button(label="Submit", help="Submit the data, update the .csv file and move to the next image", on_click=submit_button_callback, use_container_width=True)
-        st.data_editor(data=st.session_state.data, use_container_width=True)
-
+        user_edited_data = st.data_editor(data=st.session_state.data, use_container_width=True)
+        st.session_state.data = user_edited_data
 
