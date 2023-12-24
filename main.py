@@ -31,8 +31,11 @@ if 'data' not in st.session_state:
     st.session_state.data=None
 if 'counter' not in st.session_state:
     st.session_state.counter = 0
+if 'answer' not in st.session_state:
+    st.session_state.answer = None
 
 st.session_state.image_container = st.empty()
+st.session_state.comments = None
 
 
 #function to load up images from google maps api:
@@ -52,6 +55,7 @@ def load_new_image():
         #if google api does not return a photo (i.e. no features at that coordinate) the csv file "features" column for that set of coordinates is set to "no"
         else:
             st.session_state.data.at[st.session_state.counter, 'feature']=0
+            st.session_state.data.at[st.session_state.counter, 'comments']=0
             print(st.session_state.data.loc[[st.session_state.counter]])
             st.session_state.counter+=1
             load_new_image()
@@ -62,20 +66,22 @@ def load_new_image():
 
 #yes button with function to update the csv file and then load up a new image
 def yes_button_callback():
-    if st.session_state.user_file!=None:
-        st.session_state.data.at[st.session_state.counter, 'feature']=1
-        st.session_state.counter+=1
-        load_new_image()
+    st.session_state.answer=1
 
 
 
 #no button with function to update the csv file and then load up a new image
 def no_button_callback():
-    if st.session_state.user_file!=None:
-        st.session_state.data.at[st.session_state.counter, 'feature']=0
-        st.session_state.counter+=1
-        load_new_image()
+    st.session_state.answer=0
 
+def inc_button_callback():
+    st.session_state.answer = 2
+
+def submit_button_callback():
+    st.session_state.data.at[st.session_state.counter, 'feature']=st.session_state.answer
+    st.session_state.data.at[st.session_state.counter, 'comments']=st.session_state.comments
+    st.session_state.counter+=1
+    load_new_image()
 
 #user uploads file here
 #when user uploads new file, counter is reset, and the first image is loaded
@@ -88,9 +94,12 @@ if st.session_state.user_file!=None:
         st.session_state.data=pd.read_csv(st.session_state.user_file)
     if len(st.session_state.data.x)>0:
         load_new_image()
-        col1, col2 = st.columns(2)
+        col1, col2, col3= st.columns(3)
         col1.button(label="Yes", help="Yes = The feature IS shown in the image", on_click=yes_button_callback, use_container_width=True)
         col2.button(label='No', help="No = The feature IS NOT shown in the image", on_click=no_button_callback, use_container_width=True)
+        col3.button(label="Inconclusive", help = "Inconclusive = Unsure if feature is shown in the image", on_click=inc_button_callback, use_container_width=True)
+        st.session_state.comments = st.text_area(label="Comments", label_visibility="hidden", placeholder="Enter your comments here")
+        st.button(label="Submit", help="Submit the data and update the .csv file", on_click=submit_button_callback, use_container_width=True)
         st.data_editor(data=st.session_state.data, use_container_width=True)
 
 
